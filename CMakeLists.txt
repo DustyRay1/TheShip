@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.30 FATAL_ERROR)
 
 set(PROJECT_NAME TheShip)
 
-project(${PROJECT_NAME})
+project (${PROJECT_NAME})
 
 add_executable(TheShip src/main.cpp)
+
+set_property( DIRECTORY PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(GLFW_BUILD_EXAMPLES "Build the GLFW example programs" OFF)
