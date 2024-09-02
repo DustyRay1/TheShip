@@ -4,6 +4,9 @@ set(PROJECT_NAME TheShip)
 
 project (${PROJECT_NAME})
 
+
+set(CMAKE_CXX_STANDARD 20)
+
 add_executable(TheShip src/main.cpp)
 
 set_property( DIRECTORY PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
