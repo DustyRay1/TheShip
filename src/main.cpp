@@ -1,7 +1,11 @@
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <glfw/glfw3.h>
 #include <iostream>
 #include <string>
+
+#include "Renderer/ShaderProgram.h" //Renderer here cause ShaderProgram.h is in another folder
+
+//using namespace Proverka;
 
 GLuint* points_vbo_link = nullptr;
 
@@ -17,7 +21,7 @@ GLfloat colors[] = {
 	0.0f, 0.0f, 1.0f,
 };
 
-const GLchar* vertex_shader =
+GLchar* vertex_shader =
 "#version 460\n"
 "layout(location = 0) in vec2 vertex_position;"
 "layout(location = 1) in vec3 vertex_color;"
@@ -27,7 +31,7 @@ const GLchar* vertex_shader =
 "   gl_Position = vec4(vertex_position, 0.0 , 1.0);"
 "}";
 
-const GLchar* fragment_shader =
+GLchar* fragment_shader =
 "#version 460\n"
 "in vec3 color;"
 "out vec4 frag_color;"
@@ -37,7 +41,7 @@ const GLchar* fragment_shader =
 
 
 int windowSizeX = 640;
-int windowSizeY = 480;
+int windowSizeY = 420;
 
 void glfwWindowSizeCallback(GLFWwindow* pWindow, int width, int height)
 {
@@ -71,6 +75,8 @@ int main(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	//Check();
 
 	/* Initialize the library */
 	if (!glfwInit())
@@ -106,21 +112,29 @@ int main(void)
 
 	glClearColor(1, 1, 0, 1);
 
-	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, &vertex_shader, nullptr);
-	glCompileShader(vs);
+	//GLuint x = 0;
 
-	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, &fragment_shader, nullptr);
-	glCompileShader(fs);
+	GLuint shader_program {};
+	
+	Renderer::ShaderProgram::ShaderProgram(vertex_shader, fragment_shader, shader_program); //Мы можем вызвать 
 
-	GLuint shader_program = glCreateProgram();
-	glAttachShader(shader_program, vs);
-	glAttachShader(shader_program, fs);
-	glLinkProgram(shader_program);
+	Renderer::ShaderProgram someshader(vertex_shader, fragment_shader, shader_program);
 
-	glDeleteShader(vs);
-	glDeleteShader(fs);
+	//GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+	//glShaderSource(vs, 1, &vertex_shader, nullptr);
+	//glCompileShader(vs);
+
+	//GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+	//glShaderSource(fs, 1, &fragment_shader, nullptr);
+	//glCompileShader(fs);
+
+	//GLuint shader_program = glCreateProgram();
+	//glAttachShader(shader_program, vs);
+	//glAttachShader(shader_program, fs);
+	//glLinkProgram(shader_program);
+
+	//glDeleteShader(vs);
+	//glDeleteShader(fs);
 
 	GLuint points_vbo = 0;
 	glGenBuffers(1, &points_vbo);
